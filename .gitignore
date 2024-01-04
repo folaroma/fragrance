@@ -9,6 +9,4 @@
 /server/env
 /server/__pycache__
 /server/.flasnkenv
-
-
-.env
+/server/.env
