@@ -1,32 +1,15 @@
-from app import db
-
-from sqlalchemy.exc import IntegrityError
+from server.app import db
 
 class Fragrance(db.Model):
   __tablename__ = "fragrance"
 
   id = db.Column(db.Integer, primary_key=True, autoincrement=True)
   name = db.Column(db.String(255), nullable=False)
-  brand = db.Column(db.String(255), nullable=False)
   duration = db.Column(db.Integer, nullable=False)
   notes = db.relationship("note", backref="fragrance")
+  brand_id = db.Column(db.Integer, db.ForeignKey('brand.id'))
 
-  def __init__(self, name, brand, duration):
+  def __init__(self, name, duration, brand_id):
     self.name = name
-    self.brand = brand
     self.duration = duration
-
-
-  @staticmethod
-  def create_fragrance(payload):
-    fragrance = Fragrance(
-      name=payload["name"],
-      brand=payload["brand"],
-      duration=payload["duration"],
-    )
-    try:
-        db.session.add(fragrance)
-        db.session.commit()
-        return True
-    except IntegrityError:
-        return False
+    self.brand_id = brand_id
