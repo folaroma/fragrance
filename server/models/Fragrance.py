@@ -6,7 +6,7 @@ class Fragrance(db.Model):
   id = db.Column(db.Integer, primary_key=True, autoincrement=True)
   name = db.Column(db.String(255), nullable=False)
   duration = db.Column(db.Integer, nullable=False)
-  notes = db.relationship("note", backref="fragrance")
+  notes = db.relationship("note", secondary='fragrance_note', back_populates="fragrances")
   brand_id = db.Column(db.Integer, db.ForeignKey('brand.id'))
 
   def __init__(self, name, duration, brand_id):
