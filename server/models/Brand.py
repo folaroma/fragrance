@@ -1,4 +1,4 @@
-from server.app import db
+from app import db
 
 class Brand(db.Model):
   __tablename__ = "brand"

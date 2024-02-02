@@ -1,4 +1,4 @@
-from server.app import db
+from app import db
 
 class FragranceNote(db.model):
   fragrance_note = db.Table('fragrance_note',

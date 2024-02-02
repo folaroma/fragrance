@@ -1,5 +1,4 @@
 from models import User
-from server.app import Bcrypt
 from server.app import db
 from sqlalchemy.exc import IntegrityError
 
@@ -19,26 +18,44 @@ class UserService():
             return False
 
     @staticmethod
-    def hashed_password(password):
-        return Bcrypt.generate_password_hash(password).decode("utf-8")
-
-    @staticmethod
     def get_user_by_id(user_id):
-        user = User.query.filter_by(id=user_id).first()
+        user = User.query.get(user_id)
         return user
-
+    
     @staticmethod
-    def get_user_with_email_and_password(email, password):
-        user = User.query.filter_by(email=email).first()
-        if user and Bcrypt.check_password_hash(user.password, password): 
-            return user
-        else: 
-            return None
+    def delete_user_by_id(user_id):
+        user = User.query.get(user_id)
+        if user:
+            db.session.delete(user)
+            db.session.commit()
+            return True
+        return False
+    
+    @staticmethod
+    def update_user_by_id(user_id, payload):
+        user = User.query.get(user_id)
+        if user:
+            try:
+                for key, value in payload.items():
+                    if hasattr(user, key):
+                        setattr(user, key, value)
+                db.session.commit()
+                return True
+            except Exception as e:
+                db.session.rollback()
+                return False, str(e)
+        else:
+            return False
         
     @staticmethod
-    def get_user_with_username_and_password(username, password):
-        user = User.query.filter_by(username=username).first()
-        if user and Bcrypt.check_password_hash(user.password, password): 
-            return user
-        else: 
-            return None
+    def get_all_users():
+        users_query = User.query.all()
+        users_list = []
+        for user in users_query:
+            users_list.append({
+                "id": user.id,
+                "username": user.username,
+                "email": user.email,
+                "created": user.created
+            })
+        return users_list
