@@ -1,4 +1,5 @@
 from app import db
+from datetime import datetime
 
 class Note(db.Model):
   __tablename__ = "note"
@@ -8,6 +9,7 @@ class Note(db.Model):
   category = db.Column(db.String(255), nullable=False)
   percentage = db.Column(db.Numeric(5, 2), nullable=False)
   fragrances = db.relationship("fragrance", secondary='fragrance_note', back_populates="notes")
+  created = db.Column(db.DateTime, default=datetime.utcnow)
 
   __table_args__ = (
       db.CheckConstraint(category.in_([0, 1, 2])),

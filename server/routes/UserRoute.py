@@ -1,14 +1,13 @@
 from flask import Blueprint
-from flask_restful import Api, abort, reqparse, Resource
+from flask_restful import Api, reqparse, Resource
 
-from app import db
 from services import UserService
 from models import User
 
 user_api = Api(Blueprint('user_api', __name__))
 
 @user_api.resource('/users/<user_id>')
-class User(Resource):
+class UserAPI(Resource):
   parser = reqparse.RequestParser()
   parser.add_argument('email')
   parser.add_argument('password')
@@ -38,7 +37,7 @@ class User(Resource):
     return {"message": "User not found."}, 404
   
 @user_api.resource('/users')
-class Users(Resource):
+class UsersAPI(Resource):
    def get(self):
       users = UserService.get_all_users()
       if users:

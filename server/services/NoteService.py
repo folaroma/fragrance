@@ -8,7 +8,7 @@ class NoteService():
   def create_note(payload):
     note = Note(
       note=payload["note"],
-      category=payload["duration"],
+      category=payload["category"],
       percentage=payload["percentage"],
     )
     if payload["fragrance_ids"]:
@@ -29,11 +29,39 @@ class NoteService():
      return note
   
   @staticmethod
-  def get_note_fragrances(note_id):
-     return Fragrance.query.filter_by(note_id).all()
+  def delete_note_by_id(note_id):
+      note = Note.query.get(note_id)
+      if note:
+          db.session.delete(note)
+          db.session.commit()
+          return True
+      return False
   
   @staticmethod
-  def get_note_percentage(fragrance_id):
-     fragrance = FragranceService.get_fragrance_by_id(fragrance_id)
-     return fragrance.percentage
+  def update_note_by_id(note_id, payload):
+      note = Note.query.get(note_id)
+      if note:
+          try:
+              for key, value in payload.items():
+                  if hasattr(note, key):
+                      setattr(note, key, value)
+              db.session.commit()
+              return True
+          except Exception as e:
+              db.session.rollback()
+              return False, str(e)
+      else:
+          return False
+      
+  @staticmethod
+  def get_all_notes():
+      notes_query = Note.query.all()
+      notes_list = []
+      for note in notes_query:
+          notes_list.append({
+              "id": note.id,
+              "name": note.name,
+              "created": note.created
+          })
+      return notes_list
   
