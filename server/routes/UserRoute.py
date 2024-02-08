@@ -1,8 +1,7 @@
-from flask import Blueprint
+from flask import Blueprint, jsonify
 from flask_restful import Api, reqparse, Resource
 
 from services import UserService
-from models import User
 
 user_api = Api(Blueprint('user_api', __name__))
 
@@ -16,11 +15,17 @@ class UserAPI(Resource):
   def get(self, user_id):
     user = UserService.get_user_by_id(user_id)
     if user:
-        return user, 200
+        user_data = {
+            "id": user.id,
+            "email": user.email,
+            "username": user.username,
+            "created": user.created
+        }
+        return jsonify(user_data), 200
     return {'message': 'User not found'}, 404
   
   def post(self):
-    payload = User.parser.parse_args()
+    payload = UserAPI.parser.parse_args()
     if UserService.create_user(payload):
         return {"message": "User created successfully."}, 200
     return {"message": "User failed to be created."}, 404       
@@ -31,15 +36,15 @@ class UserAPI(Resource):
     return {"message": "User not found."}, 404
     
   def put(self, user_id):
-    payload = User.parser.parse_args()
-    if UserService.update_user_by_id(user_id, payload):
+    payload = UserAPI.parser.parse_args()
+    success, message = UserService.update_user_by_id(user_id, payload)
+    if success:
         return {"message": "User updated successfully."}, 200
-    return {"message": "User not found."}, 404
+    else:
+        return {"message": message}, 404
   
-@user_api.resource('/users')
+@user_api.resource('/users/')
 class UsersAPI(Resource):
    def get(self):
-      users = UserService.get_all_users()
-      if users:
-         return users, 200
-      return {'message': "No users found"}, 404
+    users = UserService.get_all_users()
+    return users, 200

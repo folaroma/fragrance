@@ -31,7 +31,7 @@ class NoteAPI(Resource):
     return {"message": "Note not found."}, 404
     
   def put(self, note_id):
-    payload = Note.parser.parse_args()
+    payload = NoteAPI.parser.parse_args()
     if NoteService.update_note_by_id(note_id, payload):
         return {"message": "Note updated successfully."}, 200
     return {"message": "Note not found."}, 404

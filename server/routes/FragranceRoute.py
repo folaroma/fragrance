@@ -20,7 +20,7 @@ class FragranceAPI(Resource):
     return {'message': 'Fragrance not found'}, 404
   
   def post(self):
-    payload = Fragrance.parser.parse_args()
+    payload = FragranceAPI.parser.parse_args()
     if FragranceService.create_fragrance(payload):
         return {"message": "Fragrance created successfully."}, 200
     return {"message": "Fragrance failed to be created."}, 404       

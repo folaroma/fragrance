@@ -18,7 +18,7 @@ class BrandAPI(Resource):
     return {'message': 'Brand not found'}, 404
   
   def post(self):
-    payload = Brand.parser.parse_args()
+    payload = BrandAPI.parser.parse_args()
     if BrandService.create_brand(payload):
         return {"message": "Brand created successfully."}, 200
     return {"message": "Brand failed to be created."}, 404       

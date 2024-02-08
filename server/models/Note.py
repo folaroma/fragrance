@@ -12,7 +12,7 @@ class Note(db.Model):
   created = db.Column(db.DateTime, default=datetime.utcnow)
 
   __table_args__ = (
-      db.CheckConstraint(category.in_([0, 1, 2])),
+      db.CheckConstraint("category IN ('0', '1', '2')"),
   )
 
   def __init__(self, note, category, percentage):

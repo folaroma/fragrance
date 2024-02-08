@@ -1,4 +1,4 @@
-from server.app import db
+from app import db
 from models import Brand
 from sqlalchemy.exc import IntegrityError
 

@@ -1,5 +1,5 @@
 from models import User
-from server.app import db
+from app import db, bcrypt
 from sqlalchemy.exc import IntegrityError
 
 class UserService():
@@ -16,6 +16,10 @@ class UserService():
             return True
         except IntegrityError:
             return False
+
+    @staticmethod
+    def hashed_password(password):
+        return bcrypt.generate_password_hash(password).decode("utf-8")
 
     @staticmethod
     def get_user_by_id(user_id):
@@ -46,7 +50,7 @@ class UserService():
                 return False, str(e)
         else:
             return False
-        
+    
     @staticmethod
     def get_all_users():
         users_query = User.query.all()
