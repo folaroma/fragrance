@@ -2,7 +2,7 @@ from flask import Blueprint
 from flask_restful import Api, reqparse, Resource
 
 from services import NoteService
-from models import Note
+from models.Note import Note
 
 note_api = Api(Blueprint('note_api', __name__))
 

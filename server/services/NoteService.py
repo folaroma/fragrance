@@ -1,5 +1,5 @@
 from app import db
-from models import Note
+from models.Note import Note
 from services import FragranceService
 from sqlalchemy.exc import IntegrityError
 

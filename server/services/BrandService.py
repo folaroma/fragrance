@@ -1,5 +1,5 @@
 from app import db
-from models import Brand
+from models.Brand import Brand
 from sqlalchemy.exc import IntegrityError
 
 class BrandService():

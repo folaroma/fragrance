@@ -9,14 +9,15 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "webpack-dev-server": "^4.15.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "start-api": "cd server && env/bin/flask run --no-debugger",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "gunicorn-dev": "gunicorn -b 127.0.0.1:5000 --reload --chdir server entry:app",
+    "gunicorn": "gunicorn -b 0.0.0.0:$PORT --chdir server entry:app",
+    "start": "webpack-dev-server --open --mode development",
+    "dev": "concurrently --kill-others \"npm run start\" \"npm run gunicorn-dev\"",
+    "heroku-prebuild": "npm install --dev"
   },
   "eslintConfig": {
     "extends": [

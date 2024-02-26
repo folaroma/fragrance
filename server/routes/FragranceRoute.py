@@ -2,7 +2,7 @@ from flask import Blueprint
 from flask_restful import Api, reqparse, Resource
 
 from services import FragranceService
-from models import Fragrance
+from models.Fragrance import Fragrance
 
 fragrance_api = Api(Blueprint('fragrance_api', __name__))
 

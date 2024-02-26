@@ -15,7 +15,7 @@ db = SQLAlchemy()
 bcrypt = Bcrypt()
 
 def create_app():
-  from routes import brand_api, fragrance_api, note_api, user_api
+  from server.routes import brand_api, fragrance_api, note_api, user_api
   from views.index import index_view
 
   app = Flask(__name__)

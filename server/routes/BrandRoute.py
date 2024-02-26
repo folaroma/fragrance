@@ -2,7 +2,7 @@ from flask import Blueprint
 from flask_restful import Api, reqparse, Resource
 
 from services import BrandService
-from models import Brand
+from models.Brand import Brand
 
 brand_api = Api(Blueprint('brand_api', __name__))
 

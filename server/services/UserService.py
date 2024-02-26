@@ -1,4 +1,4 @@
-from models import User
+from models.User import User
 from app import db, bcrypt
 from sqlalchemy.exc import IntegrityError
 
@@ -53,7 +53,7 @@ class UserService():
     
     @staticmethod
     def get_all_users():
-        users_query = User.query.all()
+        users_query = db.session.query(User).all()
         users_list = []
         for user in users_query:
             users_list.append({
