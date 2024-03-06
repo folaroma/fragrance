@@ -11,3 +11,7 @@ node_modules
 /server/__pycache__
 /server/.flasnkenv
 /server/.env
+/server/models/__pycache__
+/server/routes/__pycache__
+/server/services/__pycache__
+/server/views/__pycache__
